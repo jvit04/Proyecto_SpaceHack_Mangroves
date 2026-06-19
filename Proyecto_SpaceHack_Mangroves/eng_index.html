@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-
-<html lang="es" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infraestructura Verde: Guayaquil</title>
+    <title>Green Infrastructure: Guayaquil</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Configuración de Tailwind fusionada -->
     <script>
-        let tailwind;
         tailwind.config = {
             theme: {
                 extend: {
@@ -37,7 +32,7 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Contenedores de gráficos responsivos (Crítico para Chart.js) */
+        /* Responsive chart containers (Critical for Chart.js) */
         .chart-container {
             position: relative;
             width: 100%;
@@ -54,7 +49,7 @@
             }
         }
 
-        /* Toggle Switch Styling (Proyecto 1) */
+        /* Toggle Switch Styling */
         .toggle-checkbox:checked {
             right: 0;
             border-color: #059669; /* Emerald 600 */
@@ -63,7 +58,7 @@
             background-color: #059669;
         }
         
-        /* Estilos para el diagrama interactivo HTML/CSS (Proyecto 2) */
+        /* Interactive HTML/CSS diagram styling */
         .diagram-layer {
             transition: all 0.3s ease;
             cursor: pointer;
@@ -78,43 +73,21 @@
             z-index: 40 !important;
         }
     </style>
-
-    <!-- Chosen Palette: Slate (Neutrals) for background/text, Emerald (Greens) for nature/positive impact, Light Blue for Estero Salado context. -->
-    
-    <!-- Application Structure Plan: 
-         1. Header/Nav: Unified introduction to "Green Infrastructure" addressing both land and water.
-         2. Section 1 (Terrestrial - Parque Lineal): The interactive Dashboard from File 1. Allows users to toggle scenarios and see the immediate impact on permeability and flood risk via dynamic charts.
-         3. Section 2 (Aquatic - Estero Salado): Introduces Floating Islands. Uses the interactive HTML diagram from File 2 to break down the anatomy of the solution.
-         4. Section 3 (Species Deep Dive): The interactive tabs focusing on the Red Mangrove, which is the unifying biological element for BOTH projects.
-         5. Section 4 (Water Impact): The dual-axis line chart showing long-term water quality improvement.
-         This flow moves logically from the broad problem (flooding/compacted soil), to water quality (Estero), to the biological solution (Mangrove), and finally the long-term impact.
-    -->
-
-    <!-- Visualization & Content Choices: 
-         - Goal: Compare vegetation/flood risk. -> Viz: Doughnut, Bar, Area Charts. -> Interaction: Unified toggle switch. -> Justification: Immediate visual comparison.
-         - Goal: Explain Floating Island Anatomy. -> Viz: HTML/CSS Layered Diagram. -> Interaction: Clickable layers updating text. -> Justification: Teaches spatial structure without heavy images/SVG.
-         - Goal: Detail Mangrove characteristics. -> Viz: Tabbed layout. -> Interaction: Clickable topics. -> Justification: Organizes text without cluttering the page.
-         - Goal: Show long-term water quality. -> Viz: Dual-axis Line Chart. -> Interaction: Tooltips. -> Justification: Shows inverse correlation (DO goes up, BOD goes down).
-         Confirming NO SVG or Mermaid JS used. Charts via Canvas. Diagrams via styled HTML DOM elements.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
 
-    <!-- Navegación Sticky -->
     <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur shadow-sm border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex-shrink-0 flex items-center font-bold text-xl text-manglar-verde tracking-tight">
-                    La Perla del Manglar
+                    The Mangrove Pearl
                 </div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#parque-lineal" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Inundaciones (Parque)</a>
-                    <a href="#islas-flotantes" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Biorremediación (Estero)</a>
-                    <a href="#especies" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Flora Clave</a>
-                    <a href="#impacto" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Impacto Hídrico</a>
+                    <a href="#parque-lineal" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Flooding (Park)</a>
+                    <a href="#islas-flotantes" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Bioremediation (Estuary)</a>
+                    <a href="#especies" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Key Flora</a>
+                    <a href="#impacto" class="text-sm font-medium text-slate-600 hover:text-manglar-verde transition">Water Impact</a>
                 </div>
-                <!-- Mobile menu button -->
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none text-2xl">
                         &#9776;
@@ -122,195 +95,175 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full">
-            <a href="#parque-lineal" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Inundaciones (Parque)</a>
-            <a href="#islas-flotantes" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Biorremediación (Estero)</a>
-            <a href="#especies" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Flora Clave</a>
-            <a href="#impacto" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Impacto Hídrico</a>
+            <a href="#parque-lineal" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Flooding (Park)</a>
+            <a href="#islas-flotantes" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Bioremediation (Estuary)</a>
+            <a href="#especies" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Key Flora</a>
+            <a href="#impacto" class="block px-4 py-3 text-sm text-slate-700 hover:bg-slate-50 mobile-link">Water Impact</a>
         </div>
     </nav>
 
-    <!-- Hero Section General -->
     <header class="pt-16 pb-12 text-center max-w-4xl mx-auto px-4">
-        <div class="inline-block bg-emerald-100 text-manglar-verde text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Plan Maestro Integral</div>
+        <div class="inline-block bg-emerald-100 text-manglar-verde text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">Comprehensive Master Plan</div>
         <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            Infraestructura Verde para <span class="text-estero-azul">Guayaquil</span>
+            Green Infrastructure for <span class="text-estero-azul">Guayaquil</span>
         </h1>
         <p class="text-lg md:text-xl text-slate-600 mb-8 leading-relaxed">
-            Un análisis interactivo de dos propuestas complementarias: la restauración del Parque Lineal para mitigar inundaciones y la implementación de Islas Flotantes para depurar el Estero Salado.
+            An interactive analysis of two complementary proposals: the restoration of the Linear Park to mitigate flooding, and the implementation of Floating Islands to purify the Salado Estuary.
         </p>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-20">
 
-        <!-- ========================================== -->
-        <!-- SECCIÓN 1: PARQUE LINEAL (INUNDACIONES)    -->
-        <!-- ========================================== -->
         <div id="parque-lineal" class="scroll-mt-24">
             <div class="mb-8 border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-bold text-slate-800">Fase Terrestre: Parque Lineal y Permeabilidad</h2>
-                <p class="text-slate-500 mt-2">Transición de especies introducidas a manglares para absorber el impacto de las lluvias.</p>
+                <h2 class="text-3xl font-bold text-slate-800">Terrestrial Phase: Linear Park and Permeability</h2>
+                <p class="text-slate-500 mt-2">Transitioning from introduced species to mangroves to absorb rainfall impact.</p>
             </div>
 
-            <!-- Interactive Dashboard Control -->
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 mb-8">
                 <div class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-slate-100 pb-6">
                     <div>
-                        <h3 class="text-xl font-bold text-slate-800">Simulador de Escenarios</h3>
-                        <p class="text-slate-500 text-sm mt-1">Interaccione con el interruptor para comparar el estado actual frente a la propuesta de restauración.</p>
+                        <h3 class="text-xl font-bold text-slate-800">Scenario Simulator</h3>
+                        <p class="text-slate-500 text-sm mt-1">Interact with the toggle to compare the current state with the restoration proposal.</p>
                     </div>
                     
-                    <!-- Toggle Switch -->
                     <div class="mt-4 md:mt-0 flex items-center justify-center bg-slate-50 p-3 rounded-xl border border-slate-200">
-                        <span class="mr-3 text-sm font-semibold text-slate-700" id="label-actual">Estado Actual</span>
+                        <span class="mr-3 text-sm font-semibold text-slate-700" id="label-actual">Current State</span>
                         <div class="relative inline-block w-14 h-8 align-middle select-none transition duration-200 ease-in">
                             <input type="checkbox" name="toggle" id="scenarioToggle" class="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 border-slate-300 appearance-none cursor-pointer z-10 top-0 left-0 transition-all duration-300"/>
                             <label for="scenarioToggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-slate-300 cursor-pointer transition-colors duration-300"></label>
                         </div>
-                        <span class="ml-3 text-sm font-semibold text-slate-400" id="label-propuesto">Proyecto (Manglar)</span>
+                        <span class="ml-3 text-sm font-semibold text-slate-400" id="label-propuesto">Project (Mangrove)</span>
                     </div>
                 </div>
 
-                <!-- Dynamic Summary Text -->
                 <div class="bg-slate-50 rounded-xl p-6 border border-slate-100">
                     <div class="flex items-start">
                         <span class="text-3xl mr-4" id="status-icon">&#9888;&#65039;</span>
                         <div>
-                            <h4 class="text-lg font-bold text-slate-800 mb-2" id="summary-title">Riesgo por Suelo Compactado</h4>
+                            <h4 class="text-lg font-bold text-slate-800 mb-2" id="summary-title">Risk from Compacted Soil</h4>
                             <p class="text-slate-600 leading-relaxed" id="summary-text">
-                                El parque lineal mantiene especies introducidas con raíces poco profundas. Esto genera compactación, limitando la infiltración del agua de lluvia (15 mm/h). El resultado es un alto riesgo de anegamiento en áreas circundantes durante pleamar o lluvias intensas.
+                                The linear park features introduced species with shallow root systems. This causes soil compaction, limiting rainwater infiltration (20 mm/h). The result is a high risk of flooding in surrounding areas during high tides or heavy rainfall.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Data Breakdown Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Vegetation Breakdown -->
                 <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Composición Vegetal</h3>
-                    <p class="text-sm text-slate-500 mb-6">Proporción del área cubierta por tipo de especie.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Vegetation Composition</h3>
+                    <p class="text-sm text-slate-500 mb-6">Proportion of area covered by species type.</p>
                     <div class="chart-container">
                         <canvas id="vegChart"></canvas>
                     </div>
                 </section>
 
-                <!-- Permeability Impact -->
                 <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Impacto en Permeabilidad</h3>
-                    <p class="text-sm text-slate-500 mb-6">Tasa de infiltración (mm/h) en el suelo del parque.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Permeability Impact</h3>
+                    <p class="text-sm text-slate-500 mb-6">Infiltration rate (mm/h) in the park's soil.</p>
                     <div class="chart-container">
                         <canvas id="permChart"></canvas>
                     </div>
                 </section>
             </div>
 
-            <!-- Flood Risk Simulation -->
             <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                <h3 class="text-lg font-bold text-slate-800 mb-2">Simulación: Riesgo de Inundación (Evento 6 Hrs)</h3>
-                <p class="text-sm text-slate-500 mb-6">Proyección del nivel de agua acumulada en superficie combinando lluvia y pleamar.</p>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">Simulation: Flood Risk (6-Hour Event)</h3>
+                <p class="text-sm text-slate-500 mb-6">Projection of accumulated surface water level combining heavy rainfall and high tide.</p>
                 <div class="chart-container" style="max-width: 100%;">
                     <canvas id="floodChart"></canvas>
                 </div>
                 <div class="mt-6 flex justify-center space-x-12 text-center bg-slate-50 py-4 rounded-xl border border-slate-100">
                     <div>
                         <p class="text-3xl font-extrabold text-slate-800" id="metric-peak">45 <span class="text-lg font-normal text-slate-500">cm</span></p>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold mt-1">Pico de Inundación</p>
+                        <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold mt-1">Flood Peak</p>
                     </div>
                     <div>
                         <p class="text-3xl font-extrabold text-slate-800" id="metric-recovery">6 <span class="text-lg font-normal text-slate-500">hrs</span></p>
-                        <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold mt-1">Tiempo de Drenaje</p>
+                        <p class="text-xs text-slate-500 uppercase tracking-wide font-semibold mt-1">Drainage Time</p>
                     </div>
                 </div>
             </section>
         </div>
 
 
-        <!-- ========================================== -->
-        <!-- SECCIÓN 2: ISLAS FLOTANTES (ESTERO)        -->
-        <!-- ========================================== -->
         <div id="islas-flotantes" class="scroll-mt-24 pt-8">
             <div class="mb-8 border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-bold text-slate-800">Fase Acuática: Islas Flotantes Biorremediadoras</h2>
-                <p class="text-slate-500 mt-2">Tecnología basada en la naturaleza para la recuperación de la calidad del agua en el Estero Salado (Av. Barcelona).</p>
+                <h2 class="text-3xl font-bold text-slate-800">Aquatic Phase: Bioremediating Floating Islands</h2>
+                <p class="text-slate-500 mt-2">Nature-based technology for water quality recovery in the Salado Estuary (Av. Barcelona).</p>
             </div>
 
-            <!-- Context Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
                     <div class="text-4xl mb-4 text-estero-azul">&#128205;</div> 
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Visibilidad</h3>
-                    <p class="text-slate-600 text-sm">Ubicadas frente al Parque Lineal y Av. Barcelona, actúan como herramientas de educación ambiental visible para la ciudadanía.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Visibility</h3>
+                    <p class="text-slate-600 text-sm">Located opposite the Linear Park and Av. Barcelona, acting as visible environmental education tools for citizens.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
                     <div class="text-4xl mb-4 text-estero-azul">&#128676;</div> 
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Adaptación a Mareas</h3>
-                    <p class="text-slate-600 text-sm">A diferencia de la orilla, las islas suben y bajan con la marea del estero, asegurando contacto permanente de las raíces con el agua.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Tidal Adaptation</h3>
+                    <p class="text-slate-600 text-sm">Unlike the shoreline, the islands rise and fall with the estuary's tide, ensuring roots remain in constant contact with the water.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition">
                     <div class="text-4xl mb-4 text-estero-azul">&#128038;</div> 
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Corredor Biológico</h3>
-                    <p class="text-slate-600 text-sm">Este rosario de humedales reconecta fragmentos de hábitat, atrayendo avifauna endémica (garzas, patos cuervo) y vida acuática.</p>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Biological Corridor</h3>
+                    <p class="text-slate-600 text-sm">This chain of wetlands reconnects habitat fragments, attracting endemic birdlife (herons, cormorants) and aquatic life.</p>
                 </div>
             </div>
+            
             <div class="mt-10 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex items-center mb-6 border-b border-slate-100 pb-4">
                     <span class="text-3xl mr-3 text-manglar-verde">&#127758;</span>
                     <div>
-                        <h3 class="text-2xl font-bold text-slate-800">Funciones Ecológicas del Manglar Flotante</h3>
-                        <p class="text-sm text-slate-500 mt-1">Restauración de hábitats y soporte a la biodiversidad respaldados por literatura científica.</p>
+                        <h3 class="text-2xl font-bold text-slate-800">Ecological Functions of the Floating Mangrove</h3>
+                        <p class="text-sm text-slate-500 mt-1">Habitat restoration and biodiversity support backed by scientific literature.</p>
                     </div>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Autosustentabilidad:</strong> Restablecen las estructuras naturales y las funciones del ecosistema, apoyando la creación de entornos costeros autosustentables.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Self-sustainability:</strong> Re-establish natural assemblage structures and ecosystem functions, supporting self-sustaining coastal ecosystems.</p>
                     </div>
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Protección Física:</strong> Atenúan la energía del oleaje, reducen la erosión y mejoran la resiliencia ante el aumento del nivel del mar y las marejadas.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Physical Protection:</strong> Attenuate wave energy, reduce erosion, and enhance resilience to sea-level rise and storm surges.</p>
                     </div>
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Refugio de Fauna:</strong> Proporcionan zonas de cría, alimentación y desove para diversa fauna acuática (peces, crustáceos y aves), apoyando la biodiversidad local.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Wildlife Refuge:</strong> Provide nursery, feeding, and spawning grounds for diverse aquatic fauna (fish, crustaceans, birds), supporting local biodiversity.</p>
                     </div>
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Corredores Ecológicos:</strong> Sirven como "puentes" o zonas de paso para la macrofauna y microorganismos, acelerando la rehabilitación del ecosistema.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Ecological Corridors:</strong> Serve as stepping stones for macrofauna and microorganisms, enhancing ecosystem rehabilitation.</p>
                     </div>
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Recursos Tróficos:</strong> Ofrecen estructuras de vegetación complejas y recursos alimenticios vitales para mantener la red trófica estuarina.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Trophic Resources:</strong> Offer complex vegetation structures and food resources, vital for maintaining the estuarine food web.</p>
                     </div>
                     <div class="flex items-start">
                         <div class="text-estero-azul text-lg mt-0.5 mr-3">&#10004;</div>
-                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Carbono Azul:</strong> Mejoran los medios de vida locales y contribuyen significativamente al secuestro de carbono azul, clave en comunidades tropicales.</p>
+                        <p class="text-sm text-slate-600"><strong class="text-slate-800">Blue Carbon:</strong> Enhance local livelihoods and contribute significantly to blue carbon sequestration, key in tropical communities.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Concepto Interactivo (Diagrama) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mt-8">
                 
-                <!-- Diagrama HTML interactivo -->
                 <div class="relative w-full h-80 flex flex-col justify-end items-center bg-slate-50 rounded-xl overflow-hidden pt-10 border border-slate-200">
-                    <p class="absolute top-3 left-3 text-xs text-slate-400 font-bold uppercase tracking-wider">Diagrama Estructural</p>
+                    <p class="absolute top-3 left-3 text-xs text-slate-400 font-bold uppercase tracking-wider">Structural Diagram</p>
                     
-                    <!-- Capa Vegetación -->
                     <div id="layer-veg" class="diagram-layer w-3/4 h-24 bg-emerald-100 rounded-t-full relative z-30 flex justify-center items-end pb-2 border-b-2 border-dashed border-manglar-verde" onclick="updateDiagramInfo('veg')">
                         <span class="text-4xl drop-shadow-sm">&#127795;</span> 
                         <span class="text-3xl ml-2 drop-shadow-sm">&#127807;</span> 
                     </div>
                     
-                    <!-- Capa Matriz Flotante -->
                     <div id="layer-mat" class="diagram-layer w-4/5 h-12 bg-amber-600/90 rounded-lg relative z-20 flex items-center justify-center text-white text-sm font-bold shadow-md border border-amber-700" onclick="updateDiagramInfo('mat')">
-                        Matriz de Flotación (PVC/Bambú)
+                        Flotation Matrix (PVC/Bamboo)
                     </div>
                     
-                    <!-- Capa Raíces -->
                     <div id="layer-root" class="diagram-layer w-3/4 h-20 bg-blue-100/50 relative z-10 flex justify-around pt-2 border-x-2 border-b-2 border-blue-200 rounded-b-3xl" onclick="updateDiagramInfo('root')">
                          <div class="w-1.5 h-full bg-amber-800/60 rounded-full"></div>
                          <div class="w-1 h-4/5 bg-amber-800/60 rounded-full"></div>
@@ -319,69 +272,58 @@
                          <div class="w-1 h-full bg-amber-800/60 rounded-full"></div>
                     </div>
                     
-                    <!-- Capa Agua (Estero) -->
                     <div id="layer-water" class="diagram-layer absolute bottom-0 w-full h-24 bg-estero-azul/20 z-0 border-t-4 border-estero-azul/40 flex items-end justify-center pb-3" onclick="updateDiagramInfo('water')">
-                        <span class="text-estero-azul/70 text-sm font-black tracking-widest uppercase">Flujo del Estero &#12336;</span>
+                        <span class="text-estero-azul/70 text-sm font-black tracking-widest uppercase">Estuary Flow &#12336;</span>
                     </div>
                 </div>
 
-                <!-- Panel de información dinámica -->
                 <div id="diagram-info" class="h-full flex flex-col justify-center p-6 bg-slate-50 rounded-xl border border-slate-200">
                     <div class="text-manglar-verde text-4xl mb-4">&#128070;</div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Interactúe con el modelo</h3>
-                    <p class="text-slate-600">Haga clic en las diferentes capas del humedal flotante a la izquierda para comprender cómo funciona este sistema vivo de filtración.</p>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Interact with the model</h3>
+                    <p class="text-slate-600">Click on the different layers of the floating wetland on the left to understand how this living filtration system works.</p>
                 </div>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- SECCIÓN 3: FLORA CLAVE (AMBOS PROYECTOS)   -->
-        <!-- ========================================== -->
         <div id="especies" class="scroll-mt-24 pt-8">
             <div class="mb-8 border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-bold text-slate-800">El Protagonista: Ecosistema Manglar</h2>
-                <p class="text-slate-500 mt-2">La especie fundamental tanto para la recuperación del suelo terrestre como para las islas flotantes.</p>
+                <h2 class="text-3xl font-bold text-slate-800">The Protagonist: Mangrove Ecosystem</h2>
+                <p class="text-slate-500 mt-2">The fundamental species for both land soil recovery and the floating islands.</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200">
                 <div class="flex flex-col md:flex-row">
-                    <!-- Selector interactivo -->
                     <div class="md:w-1/3 bg-slate-50 border-r border-slate-200 p-6 flex flex-col justify-center space-y-3">
                         <button onclick="showMangroveData('especie', this)" class="mangrove-btn w-full text-left px-4 py-3 rounded-lg font-semibold bg-manglar-verde text-white shadow-sm transition" data-key="especie">
                             Rhizophora mangle
                         </button>
                         <button onclick="showMangroveData('raiz', this)" class="mangrove-btn w-full text-left px-4 py-3 rounded-lg font-semibold text-slate-600 hover:bg-slate-200 transition" data-key="raiz">
-                            Poder Biorremediador
+                            Bioremediation Power
                         </button>
                         <button onclick="showMangroveData('implementacion', this)" class="mangrove-btn w-full text-left px-4 py-3 rounded-lg font-semibold text-slate-600 hover:bg-slate-200 transition" data-key="implementacion">
-                            Técnica de Propágulos
+                            Propagule Technique
                         </button>
                     </div>
                     
-                    <!-- Contenido dinámico -->
                     <div class="md:w-2/3 p-8">
                         <div id="mangrove-content" class="h-full flex flex-col justify-center">
-                            <!-- Inyectado por JS -->
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- SECCIÓN 4: IMPACTO HÍDRICO                 -->
-        <!-- ========================================== -->
         <div id="impacto" class="scroll-mt-24 pt-8">
             <div class="mb-8 border-b border-slate-200 pb-4">
-                <h2 class="text-3xl font-bold text-slate-800">Proyección de Impacto Ambiental</h2>
-                <p class="text-slate-500 mt-2">Simulación del efecto a 5 años de la infraestructura verde combinada (Parque + Islas) en la calidad del agua del estero.</p>
+                <h2 class="text-3xl font-bold text-slate-800">Environmental Impact Projection</h2>
+                <p class="text-slate-500 mt-2">Simulation of the 5-year effect of combined green infrastructure (Park + Islands) on estuary water quality.</p>
             </div>
 
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-                    <h3 class="text-lg font-bold text-slate-800 mb-2 md:mb-0">Evolución: Oxígeno vs. Contaminantes</h3>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 md:mb-0">Evolution: Oxygen vs. Pollutants</h3>
                     <div class="text-xs bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full text-slate-600 font-bold uppercase tracking-wide">
-                        Área de influencia: 2km lineales
+                        Influence area: 2 linear km
                     </div>
                 </div>
                 
@@ -395,8 +337,8 @@
                             <span class="text-estero-azul font-bold text-xl">&#8593;</span>
                         </div>
                         <div>
-                            <p class="font-bold text-slate-800 text-sm mb-1">Oxígeno Disuelto (OD)</p>
-                            <p class="text-sm text-slate-600">Aumenta gracias a la fotosíntesis y el bombeo radicular. Crucial para sustentar vida acuática compleja y eliminar malos olores.</p>
+                            <p class="font-bold text-slate-800 text-sm mb-1">Dissolved Oxygen (DO)</p>
+                            <p class="text-sm text-slate-600">Increases due to photosynthesis and root pumping. Crucial to sustain complex aquatic life and eliminate bad odors.</p>
                         </div>
                     </div>
                     <div class="flex items-start">
@@ -404,8 +346,8 @@
                             <span class="text-manglar-verde font-bold text-xl">&#8595;</span>
                         </div>
                         <div>
-                            <p class="font-bold text-slate-800 text-sm mb-1">Demanda Bioquímica (DBO)</p>
-                            <p class="text-sm text-slate-600">Disminuye aceleradamente. Las bacterias aeróbicas en las raíces de las islas y los bordes del parque consumen la materia orgánica.</p>
+                            <p class="font-bold text-slate-800 text-sm mb-1">Biochemical Oxygen Demand (BOD)</p>
+                            <p class="text-sm text-slate-600">Decreases rapidly. Aerobic bacteria in the island roots and park edges consume organic matter.</p>
                         </div>
                     </div>
                 </div>
@@ -417,35 +359,32 @@
     <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-4 text-center">
             <p class="text-3xl mb-4">&#127758;</p>
-            <p class="text-slate-300 font-semibold mb-2">Visión Guayaquil Sostenible</p>
-            <p class="text-sm">Infraestructura verde interactiva basada en análisis de permeabilidad y biorremediación.</p>
+            <p class="text-slate-300 font-semibold mb-2">Sustainable Guayaquil Vision</p>
+            <p class="text-sm">Interactive green infrastructure based on permeability and bioremediation analysis.</p>
         </div>
     </footer>
 
-    <!-- ========================================== -->
-    <!-- JAVASCRIPT: LÓGICA UNIFICADA               -->
-    <!-- ========================================== -->
     <script>
-        // --- 1. Lógica Global: Diagrama de Islas Flotantes ---
+        // --- 1. Global Logic: Floating Islands Diagram ---
         const diagramData = {
             'veg': {
-                title: 'Vegetación Emergente (Manglar)',
-                desc: 'Plantas halófitas que crecen sobre la isla. Realizan fotosíntesis, capturan CO2, y la copa del Mangle Rojo proporciona hábitat para aves endémicas de Guayaquil.',
+                title: 'Emergent Vegetation (Mangrove)',
+                desc: 'Halophytic plants growing on the island. They perform photosynthesis, capture CO2, and the Red Mangrove canopy provides habitat for endemic Guayaquil birds.',
                 color: 'text-manglar-verde'
             },
             'mat': {
-                title: 'Matriz de Flotación Sostenible',
-                desc: 'El "suelo" artificial. Se plantea utilizar tubos de PVC reciclados o caña guadúa local ensamblada, soportando el peso de las plantas y el sustrato de fibra de coco.',
+                title: 'Sustainable Flotation Matrix',
+                desc: 'The artificial "soil". We propose using recycled PVC pipes or locally assembled bamboo, supporting the weight of the plants and the coconut coir substrate.',
                 color: 'text-amber-600'
             },
             'root': {
-                title: 'Filtro Vivo (Sistema Radicular)',
-                desc: 'Las raíces crecen directamente hacia el agua. Forman una red inmensa donde se asientan biopelículas de microorganismos que degradan activamente los contaminantes del estero.',
+                title: 'Living Filter (Root System)',
+                desc: 'Roots grow directly into the water. They form a vast network hosting biofilms of microorganisms that actively degrade estuary pollutants.',
                 color: 'text-blue-600'
             },
             'water': {
-                title: 'Interacción con el Estero Salado',
-                desc: 'Al fluir por la matriz de raíces colgadas, el agua turbia experimenta filtración física (retención de sólidos) y biológica (consumo de nutrientes), mejorando su calidad visual y química.',
+                title: 'Interaction with the Salado Estuary',
+                desc: 'As turbid water flows through the hanging root matrix, it undergoes physical (solids retention) and biological (nutrient consumption) filtration, improving its visual and chemical quality.',
                 color: 'text-estero-azul'
             }
         };
@@ -466,22 +405,22 @@
             }
         }
 
-        // --- 2. Lógica Global: Pestañas de Especies ---
+        // --- 2. Global Logic: Species Tabs ---
         const mangroveData = {
             'especie': {
-                title: 'Rhizophora mangle (Mangle Rojo)',
+                title: 'Rhizophora mangle (Red Mangrove)',
                 icon: '&#127795;',
-                content: 'Es la especie idónea para la zona baja del Parque Lineal y las Islas Flotantes. Destaca por sus raíces fúlcreas (zancos). Es una halófita estricta, perfectamente adaptada a la salinidad del estero y a inundaciones diarias por marea.'
+                content: 'It is the ideal species for the lower zone of the Linear Park and the Floating Islands. It stands out for its stilt roots. It is a strict halophyte, perfectly adapted to the estuary\'s salinity and daily tidal flooding.'
             },
             'raiz': {
-                title: 'Ingeniería Natural: Neumatóforos y Biopelículas',
+                title: 'Nature\'s Engineering: Pneumatophores and Biofilms',
                 icon: '&#128294;',
-                content: 'En tierra, sus raíces profundas (neumatóforos) rompen el suelo compactado elevando la permeabilidad a 60mm/h. En el agua, actúan como un filtro que bombea oxígeno y aloja bacterias que "devoran" la Demanda Bioquímica de Oxígeno (DBO).'
+                content: 'On land, its deep roots (pneumatophores) break up compacted soil, raising permeability to over 200 mm/h. In the water, they act as a filter that pumps oxygen and hosts bacteria that "devour" Biochemical Oxygen Demand (BOD).'
             },
             'implementacion': {
-                title: 'Siembra mediante Propágulos',
+                title: 'Planting via Propagules',
                 icon: '&#127793;',
-                content: 'No se siembran semillas. Se utilizan <em>propágulos</em> (plántulas germinadas en el árbol madre). En el parque se clavan en el lodo preparado; en las islas, se insertan en los orificios de la matriz flotante con sustrato orgánico.'
+                content: 'Traditional seeds are not planted. We use <em>propagules</em> (seedlings germinated on the mother tree). In the park, they are driven into the prepared mud; on the islands, they are inserted into the flotation matrix holes with organic substrate.'
             }
         };
 
@@ -515,10 +454,10 @@
         }
 
 
-        // --- 3. Inicialización General (DOM Ready) ---
+        // --- 3. General Initialization (DOM Ready) ---
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- Navegación Móvil ---
+            // --- Mobile Navigation ---
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             const links = document.querySelectorAll('.mobile-link');
@@ -528,11 +467,11 @@
                 links.forEach(link => link.addEventListener('click', () => menu.classList.add('hidden')));
             }
 
-            // Inicializar vistas previas HTML
+            // Initialize HTML previews
             updateDiagramInfo('veg');
             showMangroveData('especie');
 
-            // --- CONFIGURACIÓN DE GRÁFICOS (Chart.js) ---
+            // --- CHART CONFIGURATION (Chart.js) ---
             Chart.defaults.font.family = "'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
             Chart.defaults.color = '#64748b'; // slate-500
             
@@ -542,13 +481,13 @@
                 plugins: { legend: { position: 'bottom' } }
             };
 
-           // DATOS: Simulador Parque Lineal (Validado con Hidrología de Scopus)
+           // DATA: Linear Park Simulator (Validated with Scopus Hydrology)
            const appData = {
                 current: {
-                    title: "Suelo Urbano Compactado (Alta Escorrentía)",
+                    title: "Compacted Urban Soil (High Runoff)",
                     icon: "&#9888;&#65039;",
-                    desc: "La literatura científica confirma que los suelos urbanos compactados sufren una severa pérdida de porosidad. La infiltración colapsa a apenas 20 mm/h. El coeficiente de escorrentía alcanza el 77%, lo que significa que casi toda el agua de lluvia se acumula en la superficie, generando un pico de inundación de 45 cm.",
-                    // ORDEN: [Introducidas, Nativas, Manglar Remanente]
+                    desc: "Scientific literature confirms that compacted urban soils suffer a severe loss of porosity. Infiltration collapses to barely 20 mm/h. The runoff coefficient reaches 77%, meaning almost all rainwater accumulates on the surface, generating a flood peak of 45 cm.",
+                    // ORDER: [Introduced, Native, Mangrove Remnant]
                     vegBreakdown: [63, 32, 5], 
                     permeability: 20,
                     floodLevels: [0, 15, 38, 45, 35, 20, 12],
@@ -556,10 +495,10 @@
                     recovery: "> 6"
                 },
                 proposed: {
-                    title: "Mitigación: Efecto Esponja del Manglar",
+                    title: "Mitigation: Mangrove Sponge Effect",
                     icon: "&#128154;",
-                    desc: "La restauración con manglar reduce el coeficiente de escorrentía urbana del 77% al 35%. Gracias a la compleja estructura de raíces, la infiltración se dispara a 225 mm/h. Esto atenúa drásticamente el pico de inundación (bajando a 20 cm) y drena el agua estancada en menos de la mitad del tiempo.",
-                    // ORDEN: [Introducidas, Nativas, Manglar Proyecto]
+                    desc: "Mangrove restoration reduces the urban runoff coefficient from 77% to 35%. Thanks to the complex root structure, infiltration skyrockets to 225 mm/h. This drastically attenuates the flood peak (dropping to 20 cm) and drains stagnant water in less than half the time.",
+                    // ORDER: [Introduced, Native, Mangrove Project]
                     vegBreakdown: [5, 20, 75], 
                     permeability: 225,
                     floodLevels: [0, 5, 12, 20, 10, 0, 0],
@@ -568,11 +507,11 @@
                 }
             };
 
-            // 1. Gráfico Vegetación (Doughnut - Vuelto a 3 categorías)
+            // 1. Vegetation Chart (Doughnut - Back to 3 categories)
             const vegChart = new Chart(document.getElementById('vegChart'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Especies Introducidas', 'Flora Nativa', 'Manglar'],
+                    labels: ['Introduced Species', 'Native Flora', 'Mangrove'],
                     datasets: [{
                         data: appData.current.vegBreakdown,
                         backgroundColor: ['#f43f5e', '#fbbf24', '#059669'],
@@ -582,13 +521,13 @@
                 options: { ...commonOptions, cutout: '65%' }
             });
 
-            // 2. Gráfico Permeabilidad (Bar - Con el techo arreglado)
+            // 2. Permeability Chart (Bar - Fixed ceiling)
             const permChart = new Chart(document.getElementById('permChart'), {
                 type: 'bar',
                 data: {
-                    labels: ['Tasa de Infiltración'],
+                    labels: ['Infiltration Rate'],
                     datasets: [{
-                        label: 'Capacidad Actual',
+                        label: 'Current Capacity',
                         data: [appData.current.permeability],
                         backgroundColor: '#94a3b8', borderRadius: 4
                     }]
@@ -599,13 +538,13 @@
                 }
             });
 
-            // 3. Gráfico Simulación Inundación (Ajustado a datos de Scopus)
+            // 3. Flood Simulation Chart (Adjusted to Scopus data)
             const floodChart = new Chart(document.getElementById('floodChart'), {
                 type: 'line',
                 data: {
-                    labels: ['Hora 0', 'Hora 1', 'Hora 2', 'Hora 3', 'Hora 4', 'Hora 5', 'Hora 6'],
+                    labels: ['Hour 0', 'Hour 1', 'Hour 2', 'Hour 3', 'Hour 4', 'Hour 5', 'Hour 6'],
                     datasets: [{
-                        label: 'Nivel de Agua Superficial',
+                        label: 'Surface Water Level',
                         data: appData.current.floodLevels,
                         borderColor: '#0284C7', backgroundColor: 'rgba(2, 132, 199, 0.15)',
                         borderWidth: 3, fill: true, tension: 0.4,
@@ -614,26 +553,26 @@
                 },
                 options: {
                     ...commonOptions,
-                    scales: { y: { beginAtZero: true, max: 60, title: { display: true, text: 'Nivel (cm)' } } },
+                    scales: { y: { beginAtZero: true, max: 60, title: { display: true, text: 'Level (cm)' } } },
                     plugins: { tooltip: { mode: 'index', intersect: false } }
                 }
             });
 
-            // 4. Gráfico Impacto Hídrico (Dual Axis Line - Proyecto 2)
+            // 4. Water Impact Chart (Dual Axis Line - Project 2)
             const impactChart = new Chart(document.getElementById('impactChart'), {
                 type: 'line',
                 data: {
-                    labels: ['Año 0', 'Año 1', 'Año 2', 'Año 3', 'Año 4', 'Año 5'],
+                    labels: ['Year 0', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
                     datasets: [
                         {
-                            label: 'Oxígeno Disuelto (mg/L)',
+                            label: 'Dissolved Oxygen (mg/L)',
                             data: [1.2, 1.8, 2.5, 3.8, 4.5, 5.2],
                             borderColor: '#0284C7', backgroundColor: 'rgba(2, 132, 199, 0.1)',
                             borderWidth: 3, pointBackgroundColor: '#0284C7', tension: 0.4, fill: true,
                             yAxisID: 'y'
                         },
                         {
-                            label: 'Contaminantes DBO (mg/L)',
+                            label: 'BOD Pollutants (mg/L)',
                             data: [120, 105, 80, 55, 40, 30],
                             borderColor: '#059669', borderDash: [5, 5],
                             borderWidth: 3, pointBackgroundColor: '#059669', tension: 0.4, fill: false,
@@ -649,12 +588,12 @@
                         x: { grid: { display: false } },
                         y: {
                             type: 'linear', display: true, position: 'left',
-                            title: { display: true, text: 'Oxígeno (mg/L)', color: '#0284C7', font: { weight: 'bold' } },
+                            title: { display: true, text: 'Oxygen (mg/L)', color: '#0284C7', font: { weight: 'bold' } },
                             suggestedMin: 0, suggestedMax: 8
                         },
                         y1: {
                             type: 'linear', display: true, position: 'right',
-                            title: { display: true, text: 'DBO (mg/L)', color: '#059669', font: { weight: 'bold' } },
+                            title: { display: true, text: 'BOD (mg/L)', color: '#059669', font: { weight: 'bold' } },
                             grid: { drawOnChartArea: false },
                             suggestedMin: 0, suggestedMax: 140
                         }
@@ -662,7 +601,7 @@
                 }
             });
 
-            // --- Lógica del Simulador Toggle (Parque Lineal) ---
+            // --- Toggle Simulator Logic (Linear Park) ---
             const toggle = document.getElementById('scenarioToggle');
             const labelActual = document.getElementById('label-actual');
             const labelPropuesto = document.getElementById('label-propuesto');
@@ -700,14 +639,14 @@
 
                 if (isProposed) {
                     permChart.data.datasets = [
-                        { label: 'Capacidad Actual', data: [appData.current.permeability], backgroundColor: '#94a3b8', borderRadius: 4 },
-                        { label: 'Suelo Restaurado (Manglar)', data: [data.permeability], backgroundColor: '#059669', borderRadius: 4 }
+                        { label: 'Current Capacity', data: [appData.current.permeability], backgroundColor: '#94a3b8', borderRadius: 4 },
+                        { label: 'Restored Soil (Mangrove)', data: [data.permeability], backgroundColor: '#059669', borderRadius: 4 }
                     ];
                     floodChart.data.datasets[0].borderColor = '#059669'; 
                     floodChart.data.datasets[0].backgroundColor = 'rgba(5, 150, 105, 0.15)';
                     floodChart.data.datasets[0].pointBorderColor = '#059669';
                 } else {
-                    permChart.data.datasets = [{ label: 'Capacidad Actual', data: [data.permeability], backgroundColor: '#94a3b8', borderRadius: 4 }];
+                    permChart.data.datasets = [{ label: 'Current Capacity', data: [data.permeability], backgroundColor: '#94a3b8', borderRadius: 4 }];
                     floodChart.data.datasets[0].borderColor = '#0284C7'; 
                     floodChart.data.datasets[0].backgroundColor = 'rgba(2, 132, 199, 0.15)';
                     floodChart.data.datasets[0].pointBorderColor = '#0284C7';
