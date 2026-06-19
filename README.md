@@ -44,10 +44,10 @@ Evento: Spacehack 2026 (Concurso Académico) | Periodo: 2026-Ex1 | Estado: Compl
 ## Métricas de Progreso
 | Indicador             | Valor      |
 |-----------------------|------------|
-| Commits totales       | 7          |
+| Commits totales       | 10         |
 | Issues/PRs fusionados | 0          |
 | Cobertura de pruebas  | N/A        |
-| Última actualización  | 2026-03-28 |
+| Última actualización  | 2026-06-19 |
 
 ## Reflexión y Aprendizajes
 - **Habilidades desarrolladas:** Comprensión e integración de dinámicas hidráulicas y ecológicas costeras dentro de interfaces de software interactivas, así como modelado de datos temporales mediante abstracciones visuales eficaces en el frontend.
