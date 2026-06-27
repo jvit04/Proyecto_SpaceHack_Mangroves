@@ -27,7 +27,7 @@ Evento: Spacehack 2026 (Concurso Académico) | Periodo: 2026-Ex1 | Estado: Compl
 #### Opción 1: Despliegue rápido para usuarios generales (Sin Consola)
 1. Descargue el proyecto completo presionando el botón **Code** (en la parte superior derecha de esta página) y seleccionando **Download ZIP**.
 2. Descomprima el archivo `.zip` descargado en su computadora.
-3. Abra la carpeta extraída, busque el archivo llamado `proyectoCompleto.html` y haga **doble clic** sobre él. Se abrirá automáticamente el simulador interactivo en su navegador web (Chrome, Edge, Safari, etc.) sin necesidad de configuraciones adicionales.
+3. Abra la carpeta extraída, busque el archivo llamado `index.html` y haga **doble clic** sobre él. Se abrirá automáticamente el simulador interactivo en su navegador web (Chrome, Edge, Safari, etc.) sin necesidad de configuraciones adicionales.
 
 #### Opción 2: Despliegue técnico (Vía Terminal)
 1. Clonar el repositorio remoto en su máquina local:
@@ -37,9 +37,9 @@ Evento: Spacehack 2026 (Concurso Académico) | Periodo: 2026-Ex1 | Estado: Compl
 ```
 2. Ejecutar y renderizar el entorno completo unificado localmente en el navegador predeterminado:
 ```bash
-    open proyectoCompleto.html
+    open index.html
 ```
-    *(En Windows, puede usar el comando `start proyectoCompleto.html` o simplemente abrir el archivo desde el explorador).*
+    *(En Windows, puede usar el comando `start index.html` o simplemente abrir el archivo desde el explorador).*
 
 ## Métricas de Progreso
 | Indicador             | Valor      |
@@ -51,6 +51,6 @@ Evento: Spacehack 2026 (Concurso Académico) | Periodo: 2026-Ex1 | Estado: Compl
 
 ## Reflexión y Aprendizajes
 - **Habilidades desarrolladas:** Comprensión e integración de dinámicas hidráulicas y ecológicas costeras dentro de interfaces de software interactivas, así como modelado de datos temporales mediante abstracciones visuales eficaces en el frontend.
-- **Qué funcionó bien:** La unificación de las fases terrestre y acuática dentro de una misma interfaz fluida (`proyectoCompleto.html`), prescindiendo de dependencias pesadas u objetos SVG complejos gracias al uso nativo de componentes estilizados en Tailwind y renderizado directo sobre canvas.
+- **Qué funcionó bien:** La unificación de las fases terrestre y acuática dentro de una misma interfaz fluida (`index.html`), prescindiendo de dependencias pesadas u objetos SVG complejos gracias al uso nativo de componentes estilizados en Tailwind y renderizado directo sobre canvas.
 - **Qué se podría mejorar:** Integrar un pipeline de automatización o ingesta directa de datos de sensores en tiempo real (IoT) para sustituir las curvas estáticas simuladas del Estero por métricas hidrológicas vivas.
 - **Conceptos clave aplicados del evento:** Biorremediación urbana estuarina, infraestructura verde adaptativa, coeficientes de infiltración en suelos compactados y mitigación biológica de inundaciones a través de la reintroducción de *Rhizophora mangle*.
